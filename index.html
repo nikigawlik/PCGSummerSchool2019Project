@@ -1,0 +1,35 @@
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="modules/patternEditor.js"></script>
+    <script type="module" src="modules/simulator.js"></script>
+</head>
+<body>
+    <h3>pattern generator</h3>
+    <main>
+        <fieldset>
+            <legend>good patterns</legend>
+            <canvas class="patternEditor" width="3" height="3"></canvas>
+            <canvas class="patternEditor" width="3" height="3"></canvas>
+            <canvas class="patternEditor" width="3" height="3"></canvas>
+            <canvas class="patternEditor" width="3" height="3"></canvas>
+        </fieldset>
+        <fieldset>
+            <legend>bad patterns</legend>
+            <canvas class="patternEditor" width="3" height="3"></canvas>
+            <canvas class="patternEditor" width="3" height="3"></canvas>
+            <canvas class="patternEditor" width="3" height="3"></canvas>
+            <canvas class="patternEditor" width="3" height="3"></canvas>
+        </fieldset>
+        <fieldset>
+            <legend>simulation</legend>
+
+            <label>debug view</label><input type="checkbox" class="debugCheckbox">
+            <br>
+            <button class="startButton">start/stop</button>
+            <button class="resetButton">reset</button>
+            <button class="stepButton">step</button>
+            <br>
+            <canvas class="simulator" width="32" height="32"></canvas>
+        </fieldset>
+    </main>
+</body>
