@@ -2,34 +2,49 @@
     <link rel="stylesheet" href="style.css">
     <script type="module" src="modules/patternEditor.js"></script>
     <script type="module" src="modules/simulator.js"></script>
+    <template id="patternEditorTemplate">
+        <div class="patternEditorContainer">
+            <button class="removePatternButton">x</button>
+            <!-- <input type="number" class="patternScore" value=1></input> -->
+            <canvas class="patternEditor" width="3" height="3"></canvas>
+        </div>
+    </template>
 </head>
 <body>
     <h3>pattern generator</h3>
     <main>
-        <fieldset>
+        <fieldset class="goodPatterns">
             <legend>good patterns</legend>
-            <canvas class="patternEditor" width="3" height="3"></canvas>
-            <canvas class="patternEditor" width="3" height="3"></canvas>
-            <canvas class="patternEditor" width="3" height="3"></canvas>
-            <canvas class="patternEditor" width="3" height="3"></canvas>
+            <button class="addPatternButton">add</button>
         </fieldset>
-        <fieldset>
+        <fieldset class="badPatterns">
             <legend>bad patterns</legend>
-            <canvas class="patternEditor" width="3" height="3"></canvas>
-            <canvas class="patternEditor" width="3" height="3"></canvas>
-            <canvas class="patternEditor" width="3" height="3"></canvas>
-            <canvas class="patternEditor" width="3" height="3"></canvas>
+            <button class="addPatternButton">add</button>
         </fieldset>
-        <fieldset>
+        <fieldset class="simulation">
             <legend>simulation</legend>
 
-            <label>debug view</label><input type="checkbox" class="debugCheckbox">
+            <label>debug view <input type="checkbox" class="debugCheckbox"></label>
             <br>
+            <label>canvas size <input type="number" class="canvasSize" value=128></label>
+            <br>
+            <!-- <label>drive <input type="range" value="50" class="drive"></label> 
+            <br> -->
+            <label>noise: </label>            
+            <label><input type="radio" name="noise" class="noiseType" value="uniform" checked="checked" />uniform</label>
+            <label><input type="radio" name="noise" class="noiseType" value="perlin" />perlin</label>
+            <br>
+            <label>noise density <input type="range" value="0" max="0.5" min="-0.5" step="0.01" class="noiseAmount"></label> 
+            <br>
+            <button class="calcButton">calculate</button>
+            <label><input type="number" class="iterations" value=100> iterations</label>
+            <br>
+            <label>continuous: </label>
             <button class="startButton">start/stop</button>
             <button class="resetButton">reset</button>
             <button class="stepButton">step</button>
             <br>
-            <canvas class="simulator" width="32" height="32"></canvas>
+            <canvas class="simulator" width="64" height="64"></canvas>
         </fieldset>
     </main>
 </body>

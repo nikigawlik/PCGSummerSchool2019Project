@@ -3,9 +3,28 @@
 }
 
 /* game */
+body {
+    max-width: 1024px;
+    margin: auto;
+}
 main {
     width: 100%;
-    max-width: 600px;
+    display: grid;
+    grid-template-areas: "goodPatterns simulation" "badPatterns simulation";
+    grid-template-columns: auto 530px;
+}
+
+fieldset.badPatterns {
+    grid-area: badPatterns;
+}
+
+fieldset.goodPatterns {
+    grid-area: goodPatterns;
+}
+
+fieldset.simulation {
+    grid-area: simulation;
+    width: fit-content;
 }
 
 .patternEditor {
@@ -15,10 +34,35 @@ main {
     border: 1px solid black;
 }
 
+.addPatternButton {
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+}
+
+.removePatternButton {
+    position: absolute;
+}
+
+/* .patternScore {
+    position: absolute;
+    margin-left: 32px;
+    width: 70px;
+} */
+
+.patternEditorContainer {
+    display: inline-block;
+}
+
 .simulator {
     width: 512px;
     height: 512px;
     border: 1px solid black;
+}
+
+fieldset > * {
+  vertical-align: middle;
 }
 
 /* crisp edges */

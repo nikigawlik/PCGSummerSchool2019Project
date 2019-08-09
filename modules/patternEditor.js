@@ -45,39 +45,97 @@ export default class PatternEditor {
     }
 
     static buildPatternTree() {
+        let goodPatternEditors = 
+            document.querySelector(".goodPatterns")
+            .querySelectorAll("canvas.patternEditor")
+        ;
+        let badPatternEditors = 
+            document.querySelector(".badPatterns")
+            .querySelectorAll("canvas.patternEditor")
+        ;
+        let patterns = [];
+        for(let p of goodPatternEditors) {
+            let pe = p.patternEditor;
+            // pe.score = Number(p.parentElement.querySelector("input.patternScore").value);
+            pe.score = 1;
+            patterns.push(pe);
+        }
+        for(let p of badPatternEditors) {
+            let pe = p.patternEditor;
+            // pe.score = -Number(p.parentElement.querySelector("input.patternScore").value);
+            pe.score = -1;
+            patterns.push(pe);
+        }
+
         let root = {};
-        for(let pattern of PatternEditor.patterns) {
+        for(let pattern of patterns) {
             // Important: all patterns are assumed to be same size.
             // otherwise this iteration would have to be done in a more general way
             let node = root;
             for(let i = 0; i < pattern.data.length; i++) {
                 node = node[pattern.data[i]] = node[pattern.data[i]] || {};
             }
+            node.score = pattern.score;
         }
 
         PatternEditor.patternTree = root;
-        console.log(`new pattern tree: ${JSON.stringify(PatternEditor.patternTree)}`);
+        // console.log(`new pattern tree: ${JSON.stringify(PatternEditor.patternTree)}`);
     }
 
-    static doesMatchPatternTree(data) {
+    static getMatchScore(data) {
         let node = PatternEditor.patternTree;
         for(let i = 0; i < data.length; i++) {
             if(!node[data[i]]) {
-                return false;
+                return 0;
             }
             node = node[data[i]];
         }
-        return true;
+
+        return node.score;
     }
 }
 
 window.addEventListener("load", () => {
-    let editorElements = document.querySelectorAll("canvas.patternEditor");
-    PatternEditor.patterns = [];
-    for(let editorElement of editorElements) {
-        editorElement.patternEditor = new PatternEditor(editorElement);
-        PatternEditor.patterns.push(editorElement.patternEditor);
-    }
+    // handle existing pattern editors on startup
+    setupEvents(document);
 
     PatternEditor.buildPatternTree();
+
+    // handle adding new patterns
+    let addPatternButtons = document.querySelectorAll(".addPatternButton");
+    for(let addPatternButton of addPatternButtons) {
+        addPatternButton.onclick = (ev) => {
+            let template = document.querySelector('#patternEditorTemplate');
+            let clone = document.importNode(template.content, true);
+            setupEvents(clone);
+            let parent = ev.target.parentNode;
+            parent.insertBefore(clone, ev.target);
+            PatternEditor.buildPatternTree();
+        }
+    }
+
+    // handle removing patterns
+
 });
+
+function setupEvents(rootNode) {
+    let editorElements = rootNode.querySelectorAll("canvas.patternEditor");
+    for(let editorElement of editorElements) {
+        editorElement.patternEditor = new PatternEditor(editorElement);
+    }
+
+    let removePatternButtons = rootNode.querySelectorAll(".removePatternButton");
+    for(let removePatternButton of removePatternButtons) {
+        removePatternButton.onclick = ev => {
+            ev.target.parentNode.remove();
+            PatternEditor.buildPatternTree();
+        }
+    }
+
+    let patternScoreFields = rootNode.querySelectorAll(".patternScore");
+    for(let patternScoreField of patternScoreFields) {
+        patternScoreField.onchange = ev => {
+            PatternEditor.buildPatternTree();
+        }
+    }
+}
